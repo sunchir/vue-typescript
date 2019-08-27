@@ -1,14 +1,14 @@
 <template>
   <div class="home">
     <div class="home-head">
-      <img :src="headImg" alt="高三农资放心店">
+      <img src="../assets/image/home/headImg.jpg" alt="高三农资放心店">
       <div class="home-head-title">
          <span >化肥概览：</span>
       </div>
     </div>
-    <div class="home-body">
-       <div class="home-body-item">
-         <img @click="clickProduct" :src="feiliaoImg" alt="">
+    <div  class="home-body">
+       <div v-for="(item, key) in shopList" :key="key" class="home-body-item">
+         <img :src="`/source/${item.imgName}/titleImg/img.jpg`" @click="clickProduct(item)"  alt="肥料图">
        </div>
     </div>
   </div>
@@ -16,17 +16,33 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import {
+  State,
+  Getter,
+  Action,
+  Mutation,
+  namespace,
+} from 'vuex-class';
+import { ListContent } from '@/interface/data/models';
+import List from '@/data/shop-list';
+
+const shopStore = namespace('shop');
 
 @Component({
   components: {
   },
 })
 export default class App extends Vue {
-  private headImg: string = require('@/assets/image/home/headImg.jpg');
-  private feiliaoImg: string = require('@/assets/image/manure/titleImg/fuhefei.png');
-  private clickProduct() {
+ private shopList: ListContent[] = List;
+ @shopStore.Mutation('setShopList') private setShopList: any;
+ @shopStore.Mutation('setShopDetail') private setShopDetail: any;
+ private mounted() {
+   this.setShopList(List);
+ }
+ private clickProduct(item: ListContent) {
+    this.setShopDetail(item);
     this.$router.push({name: 'detail'});
-  }
+ }
 }
 </script>
 

@@ -5,9 +5,9 @@
             <div class="loop">
             <div class="wrap">
               <ul class="slider">
-                <li><img :src="img" alt=""></li>
-                <li><img :src="img" alt=""></li>
-                <li><img :src="img" alt=""></li>
+                <li><img :src="pageDetail.head.img1" alt=""></li>
+                <li><img :src="pageDetail.head.img2"></li>
+                <li><img :src="pageDetail.head.img3"></li>
               </ul>
             </div> 
             <div class="swiper-box">
@@ -22,21 +22,21 @@
               <div class="price-title">参考价：</div>
               <div class="price-mount">
                 <span class="icon">￥</span>
-                <span class="text">100.00</span>
+                <span class="text">{{pageDetail.price}}</span>
               </div>
             </div>
             <div class="detail-body-product">
               <div class="product-title">产品介绍：</div>
               <div class="product-text">
                 <span>
-                  钾肥 作用：钾肥用于农业生产，它对农作物的主要作用是平衡氮、磷和其它营养元素，可促进植物蛋白质和碳水化合物的形成，调节植物的功能作用以达到发展根系，强壮枝干，提高抗旱和抗寒能力。钾肥还可改善作物的质量，使作物增产，结合土壤、气候条件和作物种类，按比例施用氮、磷、钾肥，对提高农作物单位面积的产量是非常重要的。
+                  {{pageDetail.content}}
                 </span>
               </div>
             </div>
             <div class="detail-body-img">
               <div class="img-title">使用效果：</div>
               <div class="img-result">
-                <img :src="img" alt="">
+                <img v-for="(item, key) in pageDetail.footer" :key="key" :src="item" alt="">
               </div>
             </div>
         </div>
@@ -44,10 +44,36 @@
 </template>
 <script lang="ts">
 import { Vue, Component} from 'vue-property-decorator';
+import {
+  State,
+  Getter,
+  Action,
+  Mutation,
+  namespace,
+} from 'vuex-class';
+import { ListContent } from '@/interface/data/models';
+
+const shopList = namespace('shop');
 
 @Component
 export default class Detail extends Vue {
-    private img: string = require('@/assets/image/manure/tianteng21-6-13/swiperimg1.png');
+  private pageDetail: any = {
+    head: {
+          img1: '',
+          img2: '',
+          img3: '',
+      },
+      price: '',
+      content: ``,
+      footer: [
+         '',
+      ],
+  };
+  @shopList.State('shopDetail') private shopDetail!: ListContent;
+  private mounted() {
+    const path: string = this.shopDetail.imgName;
+    this.pageDetail = require(`../../public/source/${path}/index`).default;
+  }
 }
 </script>
 <style lang="stylus" scoped>

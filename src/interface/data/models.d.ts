@@ -8,3 +8,7 @@ export interface ListData {
     listColor: string;
     listClick: Function;
 }
+export interface ListContent {
+    imgName:string;
+    itemName:string;
+}
