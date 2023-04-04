@@ -36,4 +36,5 @@ yarn run test:unit
 ```
 
 # vue-typescript
-一个基础例子实现vue2.0与typescript结合的demo（尽量简单精炼）
+
+A basic example to realize the demo of the combination of vue2.0 and typescript (as simple and refined as possible)
